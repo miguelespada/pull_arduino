@@ -69,11 +69,11 @@ void testApp::setupArduino(const int & version) {
     ard.sendDigital(2, ARD_HIGH);
     
     // set pin A0 to analog input
-//    ard.sendAnalogPinReporting(0, ARD_ANALOG);
+    ard.sendAnalogPinReporting(0, ARD_ANALOG);
 	
     // Listen for changes on the digital and analog pins
     ofAddListener(ard.EDigitalPinChanged, this, &testApp::digitalPinChanged);
-//      ofAddListener(ard.EAnalogPinChanged, this, &testApp::analogPinChanged);
+    ofAddListener(ard.EAnalogPinChanged, this, &testApp::analogPinChanged);
 }
 
 //--------------------------------------------------------------
@@ -88,7 +88,10 @@ void testApp::digitalPinChanged(const int & pinNum) {
 
 //--------------------------------------------------------------
 void testApp::analogPinChanged(const int & pinNum) {
-    analogValue = ard.getAnalog(pinNum);
+    if(ard.getAnalog(pinNum) > 60)
+        digitalValue = 0;
+    else
+        digitalValue = 1;
 }
 
 
@@ -102,11 +105,14 @@ void testApp::draw(){
 
 //--------------------------------------------------------------
 void testApp::keyPressed  (int key){
-    
+    if(key == ' ')
+        digitalValue = 1;
 }
 
 //--------------------------------------------------------------
 void testApp::keyReleased(int key){
+    if(key == ' ')
+        digitalValue = 0;
     
 }
 

@@ -35,7 +35,7 @@ private:
 	void updateArduino();
     string getArduinoPort();
     void arduinoSetup();
-    int analogValue, digitalValue;
+    int analogValue, digitalValue = 1;
     bool arduinoConnected;
     
     myButton button;

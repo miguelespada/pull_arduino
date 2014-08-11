@@ -2,6 +2,6 @@
 <Workspace
    version = "1.0">
    <FileRef
-      location = "self:arduino_pull.xcodeproj">
+      location = "self:pull_arduino.xcodeproj">
    </FileRef>
 </Workspace>

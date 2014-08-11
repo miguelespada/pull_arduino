@@ -21,7 +21,7 @@ class myButton{
 public:
     myButton();
 	void update(int newValue);
-
+    
 private:
     int value;
     unsigned long long last_change;
