@@ -9,13 +9,16 @@
 #include "myButton.h"
 
 
-#define HOST "localhost"
-#define PORT 8000
 
 myButton::myButton(){
+    ofxJSONElement settings;
     last_change = 0;
     value = -1;
-	sender.setup(HOST, PORT);
+    
+    settings.open(ofToDataPath("settings.json"));
+    host = settings["host"].asString();
+    port =  settings["port"].asInt();
+	sender.setup(host, port);
 };
 
 void myButton::update(int newValue){

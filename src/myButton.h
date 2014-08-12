@@ -11,6 +11,7 @@
 
 #include "ofMain.h"
 #include "ofxOsc.h"
+#include "ofxJSON.h"
 
 #define ON 0
 #define OFF 1
@@ -21,12 +22,13 @@ class myButton{
 public:
     myButton();
 	void update(int newValue);
+    int port;
+    string host;
     
 private:
     int value;
     unsigned long long last_change;
     ofxOscSender sender;
-
     
 };
 

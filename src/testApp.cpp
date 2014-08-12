@@ -97,10 +97,18 @@ void testApp::analogPinChanged(const int & pinNum) {
 
 //--------------------------------------------------------------
 void testApp::draw(){
-    if(digitalValue)
+    if(!arduinoConnected)
+        ofBackground(127);
+    else if(digitalValue)
         ofBackground(255);
     else
         ofBackground(0);
+    
+    ofSetColor(255, 0, 0);
+    std::stringstream ss;
+    ss << button.host << " " << button.port << endl;
+    ofDrawBitmapString(ss.str(), 10, 14);
+
 }
 
 //--------------------------------------------------------------

@@ -39,6 +39,7 @@ private:
     bool arduinoConnected;
     
     myButton button;
+
     
 };
 
