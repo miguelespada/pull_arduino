@@ -27,10 +27,10 @@ void myButton::update(int newValue){
         ofxOscMessage m;
 
         if(newValue == OFF){
-            if (ofGetElapsedTimeMillis() - last_change < HOLD_TIME){
-                m.setAddress("/key_up");
-                cout << "KEY UP!"  << endl;
-            }
+           // if (ofGetElapsedTimeMillis() - last_change < HOLD_TIME){
+              //  m.setAddress("/key_up");
+            //   cout << "KEY UP!"  << endl;
+            //}
         }
         else{
             m.setAddress("/key_down");
@@ -42,12 +42,12 @@ void myButton::update(int newValue){
         last_change = ofGetElapsedTimeMillis();
     }
     else if (value == ON){
-        if (ofGetElapsedTimeMillis() - last_change > HOLD_TIME){
-            ofxOscMessage m;
-            cout << "CLICK AND HOLD" << endl;
-            m.setAddress("/click_and_hold");
-            sender.sendMessage(m);
-        }
+       // if (ofGetElapsedTimeMillis() - last_change > HOLD_TIME){
+           // ofxOscMessage m;
+           // cout << "CLICK AND HOLD" << endl;
+          //  m.setAddress("/click_and_hold");
+          //  sender.sendMessage(m);
+       // }
     }
     
 };

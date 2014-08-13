@@ -62,7 +62,7 @@ void testApp::setupArduino(const int & version) {
     
     // print firmware name and version to the console
     cout << ard.getFirmwareName() << endl;
-    cout << "firmata v" << ard.getMajorFirmwareVersion() << "." << ard.getMinorFirmwareVersion() << endl;
+//    cout << "firmata v" << ard.getMajorFirmwareVersion() << "." << ard.getMinorFirmwareVersion() << endl;
     
     // set pins D2
     ard.sendDigitalPinMode(2, ARD_INPUT);
@@ -88,8 +88,12 @@ void testApp::digitalPinChanged(const int & pinNum) {
 
 //--------------------------------------------------------------
 void testApp::analogPinChanged(const int & pinNum) {
-    if(ard.getAnalog(pinNum) > 60)
-        digitalValue = 0;
+    if(ard.getAnalog(pinNum) > 60){
+        if(ofGetElapsedTimeMillis() - timer > 200){
+            digitalValue = 0;
+            timer = ofGetElapsedTimeMillis();
+        }
+    }
     else
         digitalValue = 1;
 }
@@ -114,13 +118,13 @@ void testApp::draw(){
 //--------------------------------------------------------------
 void testApp::keyPressed  (int key){
     if(key == ' ')
-        digitalValue = 1;
+        digitalValue = 0;
 }
 
 //--------------------------------------------------------------
 void testApp::keyReleased(int key){
     if(key == ' ')
-        digitalValue = 0;
+        digitalValue = 1;
     
 }
 
