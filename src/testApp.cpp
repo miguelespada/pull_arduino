@@ -88,6 +88,7 @@ void testApp::digitalPinChanged(const int & pinNum) {
 
 //--------------------------------------------------------------
 void testApp::analogPinChanged(const int & pinNum) {
+    cout << ard.getAnalog(pinNum) << endl;
     if(ard.getAnalog(pinNum) > 60){
         if(ofGetElapsedTimeMillis() - timer > 200){
             digitalValue = 0;
