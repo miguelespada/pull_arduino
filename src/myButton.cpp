@@ -15,10 +15,16 @@ myButton::myButton(){
     last_change = 0;
     value = -1;
     
-    settings.open(ofToDataPath("settings.json"));
-    host = settings["host"].asString();
-    port =  settings["port"].asInt();
-	sender.setup(host, port);
+    host = "192.168.1.170";
+    port = 8000;
+    ofFile file;
+    ofSetDataPathRoot("./data/");
+    string path = ofToDataPath("settings.json");
+    if(settings.open(path)){
+        host = settings["host"].asString();
+        port =  settings["port"].asInt();
+    }
+    sender.setup(host, port);
 };
 
 void myButton::update(int newValue){
