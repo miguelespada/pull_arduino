@@ -65,8 +65,6 @@ void testApp::setupArduino(const int & version) {
     
     // set pins D2
     ard.sendDigitalPinMode(2, ARD_INPUT);
-    ard.sendDigital(2, ARD_HIGH);
-    
     // set pin A0 to analog input
     ard.sendAnalogPinReporting(0, ARD_ANALOG);
 	
@@ -87,7 +85,6 @@ void testApp::digitalPinChanged(const int & pinNum) {
 
 //--------------------------------------------------------------
 void testApp::analogPinChanged(const int & pinNum) {
-    cout << ard.getAnalog(pinNum) << endl;
     if(ard.getAnalog(pinNum) > 60){
         if(ofGetElapsedTimeMillis() - timer > 200){
             digitalValue = 0;

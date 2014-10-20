@@ -16,14 +16,14 @@ myButton::myButton(){
     value = -1;
     
     host = "192.168.1.170";
-    port = 8000;
-    ofFile file;
-    ofSetDataPathRoot("./data/");
-    string path = ofToDataPath("settings.json");
-    if(settings.open(path)){
-        host = settings["host"].asString();
-        port =  settings["port"].asInt();
-    }
+    port = 8080;
+//    ofFile file;
+//    ofSetDataPathRoot("./data/");
+//    string path = ofToDataPath("settings.json");
+//    if(settings.open(path)){
+//        host = settings["host"].asString();
+//        port =  settings["port"].asInt();
+//    }
     sender.setup(host, port);
 };
 
