@@ -7,7 +7,18 @@ void testApp::setup(){
     
     arduinoConnected = false;
     
+    
+    osc = new OscAdapter();
+    for(int i = 0; i < 4; i ++){
+        buttons[i] = myButton(i);
+        buttons[i].osc = osc;
+    }
+    
+    lastTime = ofGetElapsedTimeMillis();
+    
 }
+//--------------------------------------------------------------
+
 
 string testApp::getArduinoPort(){
     ofSerial serial;
@@ -46,8 +57,6 @@ void testApp::update(){
                 arduinoSetup();
         }
     }
-    
-    button.update(digitalValue);
 };
 
 //--------------------------------------------------------------
@@ -64,13 +73,15 @@ void testApp::setupArduino(const int & version) {
 //    cout << "firmata v" << ard.getMajorFirmwareVersion() << "." << ard.getMinorFirmwareVersion() << endl;
     
     // set pins D2
-    ard.sendDigitalPinMode(2, ARD_INPUT);
-    // set pin A0 to analog input
-    ard.sendAnalogPinReporting(0, ARD_ANALOG);
-	
+    for(int i = 0; i < 4; i ++){
+        ard.sendDigitalPinMode(i + 2, ARD_INPUT);
+        ard.sendDigital(i  + 2 , ARD_HIGH);
+    }
+    ard.sendDigitalPinMode(6, ARD_INPUT);
+  	
     // Listen for changes on the digital and analog pins
     ofAddListener(ard.EDigitalPinChanged, this, &testApp::digitalPinChanged);
-    ofAddListener(ard.EAnalogPinChanged, this, &testApp::analogPinChanged);
+    
 }
 
 //--------------------------------------------------------------
@@ -80,19 +91,19 @@ void testApp::updateArduino(){
 
 //--------------------------------------------------------------
 void testApp::digitalPinChanged(const int & pinNum) {
-    digitalValue = ard.getDigital(pinNum);
-}
-
-//--------------------------------------------------------------
-void testApp::analogPinChanged(const int & pinNum) {
-    if(ard.getAnalog(pinNum) > 60){
-        if(ofGetElapsedTimeMillis() - timer > 200){
-            digitalValue = 0;
-            timer = ofGetElapsedTimeMillis();
+    if(pinNum == 6){
+        if(ard.getDigital(pinNum) == ON){
+            if(ofGetElapsedTimeMillis() - lastTime > 400){
+                osc->sendAction("/key_down", 0);
+                lastTime = ofGetElapsedTimeMillis();
+                
+            }
+            
         }
     }
-    else
-        digitalValue = 1;
+    else {
+        buttons[pinNum - 2].update(ard.getDigital(pinNum));
+    }
 }
 
 
@@ -100,14 +111,16 @@ void testApp::analogPinChanged(const int & pinNum) {
 void testApp::draw(){
     if(!arduinoConnected)
         ofBackground(127);
-    else if(digitalValue)
-        ofBackground(255);
     else
         ofBackground(0);
     
+    for(int i = 0; i < 4; i ++){
+        buttons[i].draw();
+    }
+    
     ofSetColor(255, 0, 0);
     std::stringstream ss;
-    ss << button.host << " " << button.port << endl;
+    ss << "Sending: " << osc->host << " " << osc->port;
     ofDrawBitmapString(ss.str(), 10, 14);
 
 }
@@ -115,47 +128,12 @@ void testApp::draw(){
 //--------------------------------------------------------------
 void testApp::keyPressed  (int key){
     if(key == ' ')
-        digitalValue = 0;
+        buttons[0] = 0;
 }
 
 //--------------------------------------------------------------
 void testApp::keyReleased(int key){
     if(key == ' ')
-        digitalValue = 1;
-    
-}
-
-//--------------------------------------------------------------
-void testApp::mouseMoved(int x, int y ){
-    
-}
-
-//--------------------------------------------------------------
-void testApp::mouseDragged(int x, int y, int button){
-    
-}
-
-//--------------------------------------------------------------
-void testApp::mousePressed(int x, int y, int button){
-    
-}
-
-//--------------------------------------------------------------
-void testApp::mouseReleased(int x, int y, int button){
-    
-}
-
-//--------------------------------------------------------------
-void testApp::windowResized(int w, int h){
-    
-}
-
-//--------------------------------------------------------------
-void testApp::gotMessage(ofMessage msg){
-    
-}
-
-//--------------------------------------------------------------
-void testApp::dragEvent(ofDragInfo dragInfo){
+        buttons[0] = 1;
     
 }

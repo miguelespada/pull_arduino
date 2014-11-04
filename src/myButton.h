@@ -10,26 +10,21 @@
 #define arduino_pull_myButton_h
 
 #include "ofMain.h"
-#include "ofxOsc.h"
-#include "ofxJSON.h"
-
+#include "OscAdapter.h"
 #define ON 0
 #define OFF 1
-#define HOLD_TIME 2000
 
 class myButton{
     
 public:
-    myButton();
-	void update(int newValue);
-    int port;
-    string host;
-    
+    myButton(){};
+    myButton(int _id);
+    void update(int newValue);
+    OscAdapter *osc;
+    void draw();
 private:
-    int value;
-    unsigned long long last_change;
-    ofxOscSender sender;
-    
+    int id;
+    int value = OFF;
 };
 
 

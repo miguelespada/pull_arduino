@@ -14,7 +14,7 @@
 		<string>https://github.com/miguelespada/pull_arduino.git</string>
 	</dict>
 	<key>IDESourceControlProjectPath</key>
-	<string>pull_arduino.xcodeproj/project.xcworkspace</string>
+	<string>pull_arduino.xcodeproj</string>
 	<key>IDESourceControlProjectRelativeInstallPathDictionary</key>
 	<dict>
 		<key>25D92196ED1A5FCEF45F9E013D840337C76218D9</key>
